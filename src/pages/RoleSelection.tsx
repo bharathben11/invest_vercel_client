@@ -28,7 +28,7 @@ export default function RoleSelection() {
   
   // Fetch current user to determine available roles
   const { data: user } = useQuery<UserWithRole>({
-    queryKey: ["/api/auth/user"],
+    queryKey: ["/auth/user"],
   });
 
   const handleContinue = async () => {
