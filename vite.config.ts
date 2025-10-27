@@ -20,7 +20,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+         target: 'http://172.208.68.134:5000',
         changeOrigin: true,
         secure: false,
       },
@@ -28,7 +28,7 @@ export default defineConfig({
   },
   define: {
     'import.meta.env.VITE_API_URL': JSON.stringify(
-      process.env.VITE_API_URL ?? 'http://localhost:5000',
+      process.env.VITE_API_URL ?? 'http://172.208.68.134:5000',
     ),
   },
 })
