@@ -43,7 +43,7 @@ export default function RoleSelection() {
 
     setIsLoading(true);
     try {
-      await fetch(`${API_BASE_URL}/auth/set-test-role`, {
+      await fetch(`${API_BASE_URL}/api/auth/set-test-role`, {
         method: "POST",
         credentials: "include",
         body: JSON.stringify({ role: selectedRole }),

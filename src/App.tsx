@@ -62,7 +62,7 @@ function App() {
   const { data: authStatus, isLoading: mockAuthLoading } = useQuery({
     queryKey: ['/api/auth/mock/status'],
     queryFn: async () => {
-      const res = await fetch(`${API_BASE_URL}/auth/mock/status`, {
+      const res = await fetch(`${API_BASE_URL}/api/auth/mock/status`, {
         credentials: 'include'
       });
       return res.json();
@@ -150,12 +150,12 @@ function App() {
                   onClick={async () => {
                     try {
                       // Try mock logout first
-                      await fetch(`${API_BASE_URL}/auth/mock/logout`, {
+                      await fetch(`${API_BASE_URL}/api/auth/mock/logout`, {
                         method: 'POST',
                         credentials: 'include'
                       });
                       // Also clear test role
-                      await fetch(`${API_BASE_URL}/auth/clear-test-role`, {
+                      await fetch(`${API_BASE_URL}/api/auth/clear-test-role`, {
                         method: 'POST',
                         credentials: 'include'
                       });
