@@ -16,19 +16,19 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
-  server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-         target: 'http://172.208.68.134:5000',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
-  define: {
-    'import.meta.env.VITE_API_URL': JSON.stringify(
-      process.env.VITE_API_URL ?? '/api',
-    ),
-  },
+  // server: {
+  //   port: 5173,
+  //   proxy: {
+  //     '/api': {
+  //        target: 'http://172.208.68.134:5000',
+  //       changeOrigin: true,
+  //       secure: false,
+  //     },
+  //   },
+  // },
+  // define: {
+  //   'import.meta.env.VITE_API_URL': JSON.stringify(
+  //     process.env.VITE_API_URL ?? '/api',
+  //   ),
+  // },
 })
