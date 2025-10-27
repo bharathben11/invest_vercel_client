@@ -15,7 +15,7 @@ export function useAuth() {
   const { data: user, isLoading, error } = useQuery<UserWithTestRole | null>({
     queryKey: ["/api/auth/user"],
     queryFn: async () => {
-      const response = await fetch(`${API_BASE_URL}/api/auth/user`, {
+      const response = await fetch(`${API_BASE_URL}/auth/user`, {
         credentials: "include"
       });
       
