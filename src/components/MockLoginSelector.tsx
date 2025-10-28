@@ -20,7 +20,7 @@ export default function MockLoginSelector() {
   const { toast } = useToast();
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/auth/mock/roles`)
+    fetch(`${API_BASE_URL}/auth/mock/roles`)
       .then(res => res.json())
       .then(data => setRoles(data.roles))
       .catch(err => console.error('Failed to load roles:', err));
@@ -29,7 +29,7 @@ export default function MockLoginSelector() {
   const handleLogin = async (role: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/mock/login`, {
+      const response = await fetch(`${API_BASE_URL}/auth/mock/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

@@ -100,8 +100,8 @@ export default function LeadManagement({ stage, currentUser }: LeadManagementPro
       queryFn: async () => {
         const endpoint =
           stage === "universe"
-            ? "/api/leads/all"
-            : `/api/leads/stage/${stage}`;
+            ? "/leads/all"
+            : `/leads/stage/${stage}`;
         const res = await apiRequest("GET", endpoint);
         return res.json();
       },
@@ -559,7 +559,7 @@ export default function LeadManagement({ stage, currentUser }: LeadManagementPro
       onSettled: () => {
         queryClient.invalidateQueries({ queryKey: ["leads", "stage", stage] });
         queryClient.invalidateQueries({ queryKey: ["leads", "stage", "outreach"] });
-        queryClient.invalidateQueries({ queryKey: ["/api/dashboard/metrics"] });
+        queryClient.invalidateQueries({ queryKey: ["/dashboard/metrics"] });
       },
 
       onSuccess: () => {
@@ -672,7 +672,7 @@ export default function LeadManagement({ stage, currentUser }: LeadManagementPro
       onSettled: () => {
         queryClient.invalidateQueries({ queryKey: ["leads", "stage", "pitching"] });
         queryClient.invalidateQueries({ queryKey: ["leads", "stage", "mandates"] });
-        queryClient.invalidateQueries({ queryKey: ["/api/dashboard/metrics"] });
+        queryClient.invalidateQueries({ queryKey: ["/dashboard/metrics"] });
       },
 
       onSuccess: () => {
@@ -1331,7 +1331,7 @@ export default function LeadManagement({ stage, currentUser }: LeadManagementPro
               setShowIndividualLeadForm(false);
               // Refresh the leads for this stage and related data
               queryClient.invalidateQueries({ queryKey: ['leads', 'stage', stage] });
-              queryClient.invalidateQueries({ queryKey: ['/api/dashboard/metrics'] });
+              queryClient.invalidateQueries({ queryKey: ['/dashboard/metrics'] });
             }}
             onCancel={() => setShowIndividualLeadForm(false)}
           />
@@ -1351,7 +1351,7 @@ export default function LeadManagement({ stage, currentUser }: LeadManagementPro
             // Refresh leads for both outreach and pitching stages
             queryClient.invalidateQueries({ queryKey: ['leads', 'stage', 'outreach'] });
             queryClient.invalidateQueries({ queryKey: ['leads', 'stage', 'pitching'] });
-            queryClient.invalidateQueries({ queryKey: ['/api/dashboard/metrics'] });
+            queryClient.invalidateQueries({ queryKey: ['/dashboard/metrics'] });
           }}
         />
       )}

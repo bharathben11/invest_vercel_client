@@ -96,7 +96,7 @@ export function IndividualLeadForm({ onSuccess, onCancel, currentUser }: Individ
   // Create individual lead mutation
   const createLeadMutation = useMutation({
     mutationFn: (data: IndividualLeadFormData) =>
-      apiRequest("POST", "/api/leads/individual", data),
+      apiRequest("POST", "/leads/individual", data),
     onSuccess: async (data: any) => {
       toast({
         title: "Lead Created Successfully",
@@ -106,7 +106,7 @@ export function IndividualLeadForm({ onSuccess, onCancel, currentUser }: Individ
       // Invalidate relevant queries and wait for refetch to complete
       await queryClient.invalidateQueries({ queryKey: ['leads'], refetchType: 'active' });
       await queryClient.invalidateQueries({ queryKey: ['/api/companies'], refetchType: 'active' });
-      await queryClient.invalidateQueries({ queryKey: ['/api/dashboard/metrics'], refetchType: 'active' });
+      await queryClient.invalidateQueries({ queryKey: ['/dashboard/metrics'], refetchType: 'active' });
       
       form.reset();
       onSuccess?.();

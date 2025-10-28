@@ -77,19 +77,19 @@ export default function Dashboard({ currentUser }: DashboardProps) {
 
   // Fetch real dashboard metrics
   const { data: metricsData, isLoading, error } = useQuery<DashboardMetrics>({
-    queryKey: ['/api/dashboard/metrics'],
+    queryKey: ['/dashboard/metrics'],
     refetchInterval: 60000, // Refresh every minute
   });
 
   // Fetch top leads in Pitching stage
   const { data: pitchingLeads = [] } = useQuery<Lead[]>({
-    queryKey: ['/api/leads/stage/pitching'],
+    queryKey: ['/leads/stage/pitching'],
     enabled: !!currentUser,
   });
 
   // Fetch top leads in Mandates stage
   const { data: mandatesLeads = [] } = useQuery<Lead[]>({
-    queryKey: ['/api/leads/stage/mandates'],
+    queryKey: ['/leads/stage/mandates'],
     enabled: !!currentUser,
   });
 
@@ -99,7 +99,7 @@ export default function Dashboard({ currentUser }: DashboardProps) {
       return apiRequest('POST', '/api/dev/populate-data', {});
     },
     onSuccess: (data: any) => {
-      queryClient.invalidateQueries({ queryKey: ['/api/dashboard/metrics'] });
+      queryClient.invalidateQueries({ queryKey: ['/dashboard/metrics'] });
       toast({
         title: "Data Populated Successfully!",
         description: data.message || 'Dummy data has been added to the system',
