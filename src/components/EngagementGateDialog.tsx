@@ -51,7 +51,7 @@ export default function EngagementGateDialog({
 
   // Fetch contacts for POC selection
   const { data: contacts = [], isLoading: isLoadingContacts } = useQuery<Contact[]>({
-    queryKey: [`/api/contacts/company/${companyId}`],
+    queryKey: [`/contacts/company/${companyId}`],
     enabled: isOpen && !!companyId,
   });
 
@@ -80,7 +80,7 @@ export default function EngagementGateDialog({
 
     try {
       // Create the meeting intervention
-      await apiRequest('POST', `/api/interventions`, {
+      await apiRequest('POST', `/interventions`, {
         leadId,
         type: formData.meetingType,
         scheduledAt: new Date(formData.scheduledAt).toISOString(),
@@ -88,7 +88,7 @@ export default function EngagementGateDialog({
       });
 
       // Move the lead to pitching stage with POC information
-      await apiRequest('PATCH', `/api/leads/${leadId}/stage`, {
+      await apiRequest('PATCH', `/leads/${leadId}/stage`, {
         stage: 'pitching',
         defaultPocId: parseInt(formData.defaultPocId),
         backupPocId: formData.backupPocId ? parseInt(formData.backupPocId) : null

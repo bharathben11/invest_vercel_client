@@ -25,7 +25,7 @@ export default function ScheduledTasksPipeline({ currentUser }: ScheduledTasksPi
 
   // Fetch scheduled interventions
   const { data: scheduledTasks = [], isLoading } = useQuery<ScheduledIntervention[]>({
-    queryKey: ['/api', 'interventions', 'scheduled'],
+    queryKey: ['interventions', 'scheduled'],
   });
 
   // Filter and search logic

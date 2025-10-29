@@ -250,13 +250,13 @@ export default function OutreachTracker({
 
   // Fetch outreach activities
   const { data: activities = [], isLoading } = useQuery<OutreachActivity[]>({
-    queryKey: ['/api/outreach/lead', leadId],
+    queryKey: ['/outreach/lead', leadId],
     enabled: !!leadId,
   });
 
   // Fetch documents (interventions with type='document') for Pitching/Mandates stages
   const { data: documents = [] } = useQuery<any[]>({
-    queryKey: ['api/interventions/lead', leadId],
+    queryKey: ['/interventions/lead', leadId],
     enabled: !!leadId && (leadStage === 'pitching' || leadStage === 'mandates'),
   });
 
@@ -271,7 +271,7 @@ export default function OutreachTracker({
 
   // Fetch contacts for the company to display POC information
   const { data: contacts = [] } = useQuery<any[]>({
-    queryKey: ['api/contacts/company', companyId],
+    queryKey: ['/contacts/company', companyId],
     enabled: !!companyId,
   });
   console.log("contacts data:", contacts);
@@ -306,7 +306,7 @@ export default function OutreachTracker({
 
   // Create outreach activity mutation
   const createActivityMutation = useMutation({
-    mutationFn: (data: any) => apiRequest('POST', '/api/outreach', data),
+    mutationFn: (data: any) => apiRequest('POST', '/outreach', data),
     onSuccess: async (data, variables) => {
       const hasFollowUp = typeof variables.followUpDate === 'string' && variables.followUpDate.length > 0;
       toast({
@@ -315,11 +315,11 @@ export default function OutreachTracker({
           ? "Outreach activity added and scheduled in Scheduled Tasks" 
           : "Outreach activity added",
       });
-      await queryClient.invalidateQueries({ queryKey: ['/api/outreach/lead', leadId], refetchType: 'active' });
+      await queryClient.invalidateQueries({ queryKey: ['/outreach/lead', leadId], refetchType: 'active' });
       
       // If follow-up date provided, also refresh Scheduled Tasks pipeline
       if (hasFollowUp) {
-        await queryClient.invalidateQueries({ queryKey: ['/api/interventions/scheduled'], refetchType: 'active' });
+        await queryClient.invalidateQueries({ queryKey: ['/interventions/scheduled'], refetchType: 'active' });
       }
       
       setShowAddForm(false);
@@ -345,13 +345,13 @@ export default function OutreachTracker({
 
   // Create document mutation for Pitching/Mandates stages
   const createDocumentMutation = useMutation({
-    mutationFn: (data: any) => apiRequest('POST', '/api/interventions', data),
+    mutationFn: (data: any) => apiRequest('POST', '/interventions', data),
     onSuccess: async () => {
       toast({
         title: "Success",
         description: "Document recorded successfully",
       });
-      await queryClient.invalidateQueries({ queryKey: ['/api/interventions/lead', leadId], refetchType: 'active' });
+      await queryClient.invalidateQueries({ queryKey: ['/interventions/lead', leadId], refetchType: 'active' });
       setShowDocumentForm(false);
       setDocumentFormData({
         documentName: '',

@@ -91,9 +91,9 @@ export default function InvitationManagement({ currentUser }: InvitationManageme
 
   // Fetch users for analyst assignment
   const { data: users = [] } = useQuery<User[]>({
-    queryKey: ['/api/users'],
+    queryKey: ['/users'],
     queryFn: async () => {
-      const response = await fetch('/api/users', {
+      const response = await fetch('/users', {
         credentials: 'include',
       });
       if (!response.ok) {

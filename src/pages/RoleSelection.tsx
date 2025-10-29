@@ -85,7 +85,7 @@ export default function RoleSelection() {
                 <SelectValue placeholder="Select a role" />
               </SelectTrigger>
               <SelectContent className="bg-gray-50">
-                {user?.role === 'admin' && (
+                {/* Admin Role */}
                   <SelectItem value="admin" data-testid="option-admin">
                     <div className="flex items-center gap-2">
                       <Shield className="h-4 w-4" />
@@ -95,8 +95,8 @@ export default function RoleSelection() {
                       </div>
                     </div>
                   </SelectItem>
-                )}
-                {/* {<SelectItem value="partner" data-testid="option-partner">
+                
+                <SelectItem value="partner" data-testid="option-partner">
                   <div className="flex items-center gap-2">
                     <UserCheck className="h-4 w-4" />
                     <div>
@@ -104,7 +104,8 @@ export default function RoleSelection() {
                       <div className="text-xs text-muted-foreground">Oversee organization activities</div>
                     </div>
                   </div>
-                </SelectItem> } */}
+                </SelectItem> 
+                
                 <SelectItem value="analyst" data-testid="option-analyst">
                   <div className="flex items-center gap-2">
                     <UserCheck className="h-4 w-4" />
@@ -112,7 +113,7 @@ export default function RoleSelection() {
                       <div className="font-medium">Analyst</div>
                       <div className="text-xs text-muted-foreground">Manage leads and interns</div>
                     </div>
-                  </div>
+                  </div> 
                 </SelectItem>
                 {/* <SelectItem value="intern" data-testid="option-intern">
                   <div className="flex items-center gap-2">

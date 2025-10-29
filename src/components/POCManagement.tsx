@@ -63,7 +63,7 @@ export default function POCManagement({ companyId, companyName, onClose, onSave,
       queryKey: ['contacts', companyId],  // ✅ FIXED: Simple array format
       queryFn: async () => {
         console.log('🔍 Fetching contacts for companyId:', companyId);
-        const response = await apiRequest('GET', `/api/contacts/company/${companyId}`);
+        const response = await apiRequest('GET', `/contacts/company/${companyId}`);
         const data = await response.json();
         console.log('📦 Fetched contacts:', data);
         return data;
@@ -116,10 +116,10 @@ export default function POCManagement({ companyId, companyName, onClose, onSave,
   }, [contacts.length, isLoading, companyId]);
 
   const createContactMutation = useMutation({
-    mutationFn: (contactData: any) => apiRequest('POST', '/api/contacts', contactData),
+    mutationFn: (contactData: any) => apiRequest('POST', '/contacts', contactData),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: [`/api/contacts/company/${companyId}`],
+        queryKey: [`/contacts/company/${companyId}`],
         refetchType: 'active'
       });
       await queryClient.invalidateQueries({ queryKey: ['leads'], refetchType: 'active' });
@@ -128,10 +128,10 @@ export default function POCManagement({ companyId, companyName, onClose, onSave,
 
   const updateContactMutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: any }) =>
-      apiRequest('PUT', `/api/contacts/${id}`, data),
+      apiRequest('PUT', `/contacts/${id}`, data),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: [`/api/contacts/company/${companyId}`],
+        queryKey: [`/contacts/company/${companyId}`],
         refetchType: 'active'
       });
       await queryClient.invalidateQueries({ queryKey: ['leads'], refetchType: 'active' });
@@ -139,10 +139,10 @@ export default function POCManagement({ companyId, companyName, onClose, onSave,
   });
 
   const deleteContactMutation = useMutation({
-    mutationFn: (id: number) => apiRequest('DELETE', `/api/contacts/${id}`),
+    mutationFn: (id: number) => apiRequest('DELETE', `/contacts/${id}`),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: [`/api/contacts/company/${companyId}`],
+        queryKey: [`/contacts/company/${companyId}`],
         refetchType: 'active'
       });
       await queryClient.invalidateQueries({ queryKey: ['leads'], refetchType: 'active' });
@@ -260,7 +260,7 @@ export default function POCManagement({ companyId, companyName, onClose, onSave,
       }
 
       await queryClient.refetchQueries({
-        queryKey: [`/api/contacts/company/${companyId}`],
+        queryKey: [`/contacts/company/${companyId}`],
         type: 'active'
       });
 
@@ -347,7 +347,7 @@ export default function POCManagement({ companyId, companyName, onClose, onSave,
       }
       
       await queryClient.refetchQueries({
-        queryKey: [`/api/contacts/company/${companyId}`],
+        queryKey: [`/contacts/company/${companyId}`],
         type: 'active'
       });
       

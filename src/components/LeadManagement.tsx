@@ -112,7 +112,7 @@ export default function LeadManagement({ stage, currentUser }: LeadManagementPro
 
   // Fetch all users for bulk assignment (partners/admins only)
   const { data: users = [] } = useQuery<User[]>({
-    queryKey: ['/api/users'],
+    queryKey: ['/users'],
     enabled: ['partner', 'admin'].includes(currentUser.role),
     // enabled: showBulkAssignModal && ['partner', 'admin'].includes(currentUser.role),
 
@@ -126,7 +126,7 @@ export default function LeadManagement({ stage, currentUser }: LeadManagementPro
     onSuccess: (data: any) => {
       // Invalidate the correct query key based on stage
       queryClient.invalidateQueries({ queryKey: ['leads', stage === 'universe' ? 'all' : 'stage', stage] });
-      queryClient.invalidateQueries({ queryKey: ['/api/users/analytics'] });
+      queryClient.invalidateQueries({ queryKey: ['/users/analytics'] });
       toast({
         title: "Bulk Assignment Complete",
         description: data.message || 'Companies assigned successfully',
@@ -171,7 +171,7 @@ export default function LeadManagement({ stage, currentUser }: LeadManagementPro
  
     // Fetch interns for displaying assigned intern names in LeadCard
   const { data: allInterns = [] } = useQuery<User[]>({
-    queryKey: ['/api/users/interns'],
+    queryKey: ['/users/interns'],
     queryFn: async () => {
       if (currentUser.role === 'analyst') {
         // Fetch analyst's assigned interns
@@ -181,7 +181,7 @@ export default function LeadManagement({ stage, currentUser }: LeadManagementPro
         return data;
       } else if (['partner', 'admin'].includes(currentUser.role)) {
         // Fetch all interns in the organization
-        const response = await apiRequest('GET', '/api/users');
+        const response = await apiRequest('GET', '/users');
         const allUsers = await response.json();
         console.log('partner/admin', allUsers);
         return allUsers.filter((u: User) => u.role === 'intern');
@@ -220,7 +220,7 @@ export default function LeadManagement({ stage, currentUser }: LeadManagementPro
   // Download CSV sample
   const handleDownloadSample = async () => {
     try {
-      const response = await apiRequest('GET', '/api/companies/csv-sample');
+      const response = await apiRequest('GET', '/companies/csv-sample');
       if (!response.ok) throw new Error('Failed to download sample');
       
       const blob = await response.blob();
@@ -521,7 +521,7 @@ export default function LeadManagement({ stage, currentUser }: LeadManagementPro
     const moveToOutreachMutation = useMutation({
       mutationFn: async (leadId: number) => {
         // Send request to backend
-        return apiRequest("PATCH", `/api/leads/${leadId}/stage`, { stage: "outreach" });
+        return apiRequest("PATCH", `/leads/${leadId}/stage`, { stage: "outreach" });
       },
 
       // 👇 Optimistic UI: update immediately
@@ -731,7 +731,7 @@ export default function LeadManagement({ stage, currentUser }: LeadManagementPro
           onSave={() => {
             // Invalidate and refetch leads data to update POC status
             queryClient.invalidateQueries({ queryKey: ['leads', 'stage', stage] });
-            queryClient.invalidateQueries({ queryKey: [`/api/contacts/company/${showPOCManagement.companyId}`] });
+            queryClient.invalidateQueries({ queryKey: [`/contacts/company/${showPOCManagement.companyId}`] });
             // Also invalidate all stage queries to refresh other views
             queryClient.invalidateQueries({ 
               predicate: (query) => {

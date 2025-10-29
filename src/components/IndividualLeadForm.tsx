@@ -72,7 +72,7 @@ export function IndividualLeadForm({ onSuccess, onCancel, currentUser }: Individ
 
   // Fetch users for assignment dropdown (analysts and partners only)
   const { data: users = [] } = useQuery({
-    queryKey: ['/api/users'],
+    queryKey: ['/users'],
     select: (data: any[]) => data.filter(user => ['analyst', 'partner'].includes(user.role))
   });
 

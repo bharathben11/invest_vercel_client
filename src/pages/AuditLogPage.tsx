@@ -88,7 +88,7 @@ export default function AuditLogPage() {
   });
 
   const { data: usersResponse } = useQuery({
-    queryKey: ['/api/users'],
+    queryKey: ['/users'],
     enabled: true
   });
 

@@ -119,7 +119,7 @@ export default function UserManagement({ currentUser }: UserManagementProps) {
 
   // Fetch user analytics
   const { data: analytics, isLoading: analyticsLoading } = useQuery<UserAnalytics>({
-    queryKey: ['/api/users/analytics'],
+    queryKey: ['/users/analytics'],
     enabled: canAccessUserManagement,
     queryFn: async ({ queryKey }) => {
       const res = await fetch(queryKey.join("/") as string, {
@@ -152,11 +152,11 @@ export default function UserManagement({ currentUser }: UserManagementProps) {
   // Update user role mutation
   const updateRoleMutation = useMutation({
     mutationFn: async ({ userId, role }: { userId: string; role: string }) => {
-      return apiRequest('PUT', `/api/users/${userId}/role`, { role });
+      return apiRequest('PUT', `/users/${userId}/role`, { role });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/users'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/users/analytics'] });
+      queryClient.invalidateQueries({ queryKey: ['/users/analytics'] });
       toast({
         title: "Role Updated",
         description: `User role has been updated successfully.`,
@@ -180,15 +180,15 @@ export default function UserManagement({ currentUser }: UserManagementProps) {
         ...userData,
         id: `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
       };
-      return apiRequest('POST', '/api/users', userWithId);
+      return apiRequest('POST', '/users', userWithId);
     },
     onSuccess: (newUser) => {
       // Force refetch of both users and analytics queries
       queryClient.invalidateQueries({ queryKey: ['/api/users'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/users/analytics'] });
+      queryClient.invalidateQueries({ queryKey: ['/users/analytics'] });
       // Also manually refetch to ensure immediate update
       queryClient.refetchQueries({ queryKey: ['/api/users'] });
-      queryClient.refetchQueries({ queryKey: ['/api/users/analytics'] });
+      queryClient.refetchQueries({ queryKey: ['/users/analytics'] });
       
       toast({
         title: "User Created",
@@ -209,11 +209,11 @@ export default function UserManagement({ currentUser }: UserManagementProps) {
   // Delete user mutation
   const deleteUserMutation = useMutation({
     mutationFn: async (userId: string) => {
-      return apiRequest('DELETE', `/api/users/${userId}`);
+      return apiRequest('DELETE', `/users/${userId}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/users'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/users/analytics'] });
+      queryClient.invalidateQueries({ queryKey: ['/users/analytics'] });
       toast({
         title: "User Deleted",
         description: "User has been deleted successfully.",
@@ -233,11 +233,11 @@ export default function UserManagement({ currentUser }: UserManagementProps) {
   // Suspend / Reactivate user mutation
   const suspendUserMutation = useMutation({
     mutationFn: async ({ userId, suspend }: { userId: string; suspend: boolean }) => {
-      return apiRequest('PATCH', `/api/users/${userId}/suspend`, { suspend });
+      return apiRequest('PATCH', `/users/${userId}/suspend`, { suspend });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/users'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/users/analytics'] });
+      queryClient.invalidateQueries({ queryKey: ['/users/analytics'] });
       toast({
         title: "User Updated",
         description: "User suspension status has been updated.",
@@ -257,11 +257,11 @@ export default function UserManagement({ currentUser }: UserManagementProps) {
   // Ownership transfer mutation
   const ownershipTransferMutation = useMutation({
     mutationFn: async ({ fromUserId, toUserId }: { fromUserId: string; toUserId: string }) => {
-      return apiRequest('POST', '/api/users/transfer-ownership', { fromUserId, toUserId });
+      return apiRequest('POST', '/users/transfer-ownership', { fromUserId, toUserId });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/users'], refetchType: 'active' });
-      queryClient.invalidateQueries({ queryKey: ['/api/users/analytics'], refetchType: 'active' });
+      queryClient.invalidateQueries({ queryKey: ['/users/analytics'], refetchType: 'active' });
       queryClient.invalidateQueries({ queryKey: ['leads'], refetchType: 'active' });
       toast({
         title: "Ownership Transferred",

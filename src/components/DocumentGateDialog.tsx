@@ -47,7 +47,7 @@ export function DocumentGateDialog({
 
   // Query to check if required document exists
   const { data: interventions = [], isLoading } = useQuery<any[]>({
-    queryKey: ['/api/interventions/lead', leadId],
+    queryKey: ['/interventions/lead', leadId],
     enabled: open,
   });
 
@@ -56,13 +56,13 @@ export function DocumentGateDialog({
 
   // Mutation to create document entry
   const createDocumentMutation = useMutation({
-    mutationFn: (data: any) => apiRequest('POST', '/api/interventions', data),
+    mutationFn: (data: any) => apiRequest('POST', '/interventions', data),
     onSuccess: async () => {
       toast({
         title: "Success",
         description: "Document recorded successfully",
       });
-      await queryClient.invalidateQueries({ queryKey: ['/api/interventions/lead', leadId], refetchType: 'active' });
+      await queryClient.invalidateQueries({ queryKey: ['/interventions/lead', leadId], refetchType: 'active' });
       setFormData({ uploadDate: '', notes: '' });
     },
     onError: (error: any) => {

@@ -52,7 +52,7 @@ export function InterventionTracker({ leadId, companyName, onClose }: Interventi
 
   // Fetch interventions for this lead
   const { data: interventions = [], isLoading } = useQuery<(Intervention & { user: User })[]>({
-    queryKey: ['/api/interventions/lead', leadId],
+    queryKey: ['/interventions/lead', leadId],
     enabled: !!leadId,
   });
 
@@ -68,9 +68,9 @@ export function InterventionTracker({ leadId, companyName, onClose }: Interventi
 
   // Create intervention mutation
   const createMutation = useMutation({
-    mutationFn: (data: InterventionFormData) => apiRequest('POST', '/api/interventions', data),
+    mutationFn: (data: InterventionFormData) => apiRequest('POST', '/interventions', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/interventions/lead', leadId] });
+      queryClient.invalidateQueries({ queryKey: ['/interventions/lead', leadId] });
       toast({ title: "Intervention scheduled successfully" });
       setShowCreateForm(false);
       form.reset();
@@ -83,9 +83,9 @@ export function InterventionTracker({ leadId, companyName, onClose }: Interventi
   // Update intervention mutation
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: Partial<InterventionFormData> }) =>
-      apiRequest('PUT', `/api/interventions/${id}`, data),
+      apiRequest('PUT', `/interventions/${id}`, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/interventions/lead', leadId] });
+      queryClient.invalidateQueries({ queryKey: ['/interventions/lead', leadId] });
       toast({ title: "Intervention updated successfully" });
       setEditingIntervention(null);
       form.reset();
@@ -97,9 +97,9 @@ export function InterventionTracker({ leadId, companyName, onClose }: Interventi
 
   // Delete intervention mutation
   const deleteMutation = useMutation({
-    mutationFn: (id: number) => apiRequest('DELETE', `/api/interventions/${id}`),
+    mutationFn: (id: number) => apiRequest('DELETE', `/interventions/${id}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/interventions/lead', leadId] });
+      queryClient.invalidateQueries({ queryKey: ['/interventions/lead', leadId] });
       toast({ title: "Intervention deleted successfully" });
     },
     onError: (error: any) => {

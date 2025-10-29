@@ -49,7 +49,7 @@ export default function ChallengeReassignModal({
   const tokenGenerationMutation = useMutation({
       mutationFn: async () => {
         if (!lead) throw new Error('Lead is required');
-        const response = await apiRequest('POST', '/api/challenge-token/generate', {
+        const response = await apiRequest('POST', '/challenge-token/generate', {
           leadId: lead.id,
           purpose: 'reassignment'
         });
@@ -85,10 +85,10 @@ export default function ChallengeReassignModal({
 
   // Fetch all users for assignment (partners/admins only)  
   const { data: users = [], isLoading: isLoadingUsers } = useQuery<UserType[]>({
-    queryKey: ['/api/users'],
+    queryKey: ['/users'],
     enabled: isOpen && ['partner', 'admin', 'analyst'].includes(currentUser.role),
     queryFn: async () => {
-      const response = await fetch('/api/users', {
+      const response = await fetch('/users', {
         credentials: 'include',
         cache: 'no-cache',
       });

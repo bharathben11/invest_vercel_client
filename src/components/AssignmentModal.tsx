@@ -77,10 +77,10 @@ export default function AssignmentModal({
   // });
 
   const { data: users = [], isLoading: isLoadingUsers } = useQuery<UserType[]>({
-    queryKey: ['/api/users'],
+    queryKey: ['/users'],
     enabled: isOpen,
     queryFn: async () => {
-      const response = await fetch('/api/users', {
+      const response = await fetch('/users', {
         credentials: 'include',
         cache: 'no-cache',
       });
@@ -109,7 +109,7 @@ export default function AssignmentModal({
   const generateTokenMutation = useMutation({
     mutationFn: async () => {
       if (!lead) throw new Error('Lead is required');
-      const response = await apiRequest('POST', '/api/challenge-token/generate', {
+      const response = await apiRequest('POST', '/challenge-token/generate', {
         leadId: lead.id,
         purpose: 'reassignment'
       });
@@ -137,7 +137,7 @@ export default function AssignmentModal({
   // Assignment mutation for Partners/Admins (to analysts)
   const assignmentMutation = useMutation({
     mutationFn: async (data: { leadId: number; assignedTo: string | null; challengeToken?: string }) => {
-      return apiRequest('POST', `/api/leads/${data.leadId}/assign`, { 
+      return apiRequest('POST', `/leads/${data.leadId}/assign`, { 
         assignedTo: data.assignedTo,
         challengeToken: data.challengeToken,
         notes: isReassignment ? 'Reassignment' : 'Initial assignment'
