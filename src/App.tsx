@@ -16,6 +16,7 @@ import NotFound from "@/pages/not-found";
 import { QueryClientProvider, useQuery } from '@tanstack/react-query';
 import MockLoginSelector from '@/components/MockLoginSelector';
 import { queryClient } from "./lib/queryClient";
+import { useEffect, useState } from "react";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -24,6 +25,7 @@ function Router({ isAuthenticated, userRole }: { isAuthenticated: boolean; userR
     <Switch>
       {!isAuthenticated ? (
         <Route path="/" component={Landing} />
+        
       ) : (
         <>
           {userRole === 'intern' ? (
